@@ -1,0 +1,40 @@
+/* .container-fluid:before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  display: block;
+  background-image: url('http://images5.fanpop.com/image/photos/30900000/supercell-weather-30965292-1440-900.jpg');
+  width: 1200px;
+  height: 100%;
+  
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+.container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  margin-left: 20px;
+  margin-right: 20px;
+  }  */
+  .footer{
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+  }
+
+/* .stacktable.large-only { display: table; }
+.stacktable.small-only { display: none; }
+
+@media (max-width: 800px) {
+  .stacktable.large-only { display: none; }
+  .stacktable.small-only { display: table; }
+} */
