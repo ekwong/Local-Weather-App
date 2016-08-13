@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	getLocation();
+	// toggleTemp();
 });
 
 function getLocation() {
@@ -42,19 +43,29 @@ function parseData(data){
 		"tstorms": Skycons.RAIN,
 		"nt_tstorms": Skycons.RAIN,
 		"mostlycloudy": Skycons.PARTLY_CLOUDY_DAY,
+		"nt_mostlycloudy": Skycons.PARTLY_CLOUDY_NIGHT,
 		"cloudy": Skycons.CLOUDY,
 		"fog": Skycons.FOG,
 		"mostlysunny": Skycons.PARTLY_CLOUDY_DAY,
 		"partlysunny": Skycons.PARTLY_CLOUDY_DAY,
 		"sleet": Skycons.SLEET,
+		"nt_sleet": Skycons.SLEET,
 		"snow": Skycons.SNOW,
+		"nt_snow": Skycons.SNOW,
 		"sunny": Skycons.CLEAR_DAY,
 		"chancerain": Skycons.RAIN,
 		"chanceflurries": Skycons.SNOW,
 		"chancesleet": Skycons.SLEET,
 		"chancesnow": Skycons.SNOW,
 		"chancetstorms": Skycons.RAIN,
+		"nt_chancerain": Skycons.RAIN,
+		"nt_chanceflurries": Skycons.SNOW,
+		"nt_chancesleet": Skycons.SLEET,
+		"nt_chancesnow": Skycons.SNOW,
+		"nt_chancetstorms": Skycons.RAIN,
+		"nt_chancetstorms": Skycons.RAIN,
 		"flurries": Skycons.SNOW,
+		"nt_flurries": Skycons.SNOW,
 		"hazy": Skycons.PARTLY_CLOUDY_DAY
 	}
 	var skycons = new Skycons({"color": "black"});
@@ -67,22 +78,31 @@ function parseData(data){
 	var location = city + ', ' + state + ', ' + country;
 	$("#location").html(location);
 
+
+	var $fDegrees = $('<p class="fDeg">&deg;F</p>');
+	var $cDegrees = $('<p class="cDeg">&deg;C</p>');
+
 	//set current conditions
 	var cur = data['current_observation'];
 
-	var fTemp = cur['temp_f'];
-	var cTemp = cur['temp_c'];
+	var $fTemp = $fDegrees.clone().prepend("Current temperature: " + cur['temp_f']);
+	var $cTemp = $cDegrees.clone().prepend("Current temperature: " + cur['temp_c']);
 	var weather = cur['weather'];
-	var fFeels = cur['feels_like_f'];
-	var cFeels = cur['feels_like_c'];
+	var $fFeels = $fDegrees.clone().prepend("Feels like: " + cur['feelslike_f']);
+	var $cFeels = $cDegrees.clone().prepend("Feels like: " + cur['feelslike_c']);
 	var timeUpdated = cur['observation_time'];
 	var curIcon = icons[cur['icon']];
 	var curIconUrl = cur['icon_url'];
+	var relHumidity = cur['relative_humidity'];
+	var wind = cur['wind_string'];
 
 	//displlay current conditions
-	$("#cur-temp").html(fTemp);
-	$("#cur-weather").html(weather);
-	$("#feels-like").html(fFeels);
+	$("#cur-temp").append($fTemp);
+	$("#cur-temp").append($cTemp);
+	$("#cur-temp").append('<p>Relative humidity: ' + relHumidity + '</p>');
+	$("#cur-weather").append("<p>" + weather + "</p>");
+	$("#feels-like").append($fFeels);
+	skycons.add("cur-icon", curIcon);
 
 	//forecastday has 8 periods
 	var txtForecasts = data['forecast']['txt_forecast']['forecastday'];
@@ -97,28 +117,34 @@ function parseData(data){
 		var forecast = day['fcttext'];
 		var mForecast = day['fcttext_metric'];
 		console.log("Period: " + (period +  1) + "; Forecast: " + forecast);
-		$("#day-weather td:nth-child(" + (period + 1) + ")").html(forecast);
-		$("#day-names th:nth-child(" + (period + 1) + ")").html(dayName);
+		$("#forecast div:nth-child(" + (period + 1) + ") > div.weather").append('<p class="fDeg">' + forecast + "</p>");
+		$("#forecast div:nth-child(" + (period + 1) + ") > div.weather").append('<p class="cDeg">' + forecast + "</p>");
+		$("#forecast div:nth-child(" + (period + 1) + ") > div.title").html("<p>" + dayName + "</p>");
+		$("#forecast div:nth-child(" + (period + 1) + ") > div.precip").html("<p>Probability of Precipitation: " + dayPrecip + "%</p>");
 		skycons.add("icon" + (period + 1), icon);
 		console.log(day['icon']);
 	}
 	//play the skycons
 	skycons.play();
-	
-	for(var period = 0; period < simple.length; period++){
-		var fHigh = simple[period]['high']['fahrenheit'];
-		var fLow = simple[period]['low']['fahrenheit'];
-		var cHigh = simple[period]['high']['celsius'];
-		var cLow = simple[period]['low']['celsius'];
-		console.log("Period: " + period + "; high: " + fHigh);
-		$("#day-ranges td:nth-child(" + ((period * 2) + 1) + ")").html("<p>High: " + simple[period]['high']['fahrenheit'] + "</p>");
-		$("#day-ranges td:nth-child(" + ((period * 2) + 1) + ")").append("<p>Low: " + simple[period]['low']['fahrenheit'] + "</p>");
-	}
 
+	
+	//set the high/low for each day
+	for(var period = 0; period < simple.length; period++){
+		var $fHigh = $fDegrees.clone().prepend("High: " + simple[period]['high']['fahrenheit']);
+		var $fLow = $fDegrees.clone().prepend("Low: " + simple[period]['low']['fahrenheit']);
+		var $cHigh = $cDegrees.clone().prepend("High: " + simple[period]['high']['celsius']);
+		var $cLow = $cDegrees.clone().prepend("Low: " + simple[period]['low']['celsius']);
+		$("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.range").append($fHigh);
+		$("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.range").append($fHigh.clone());
+		$("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.range").append($fLow);
+		$("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.range").append($fLow.clone());
+		$("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.range").append($cHigh);
+		$("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.range").append($cHigh.clone());
+		$("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.range").append($cLow);
+		$("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.range").append($cLow.clone());
+	}
 }
 
 function errorCallback(err){
 	console.log("ERROR: " + err.code + " " +  err.message);
 }
-
-// $('table').stacktable();

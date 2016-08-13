@@ -1,121 +1,147 @@
 <!DOCTYPE html>
-<html >
-<head>
-	<meta charset="UTF-8">
-	<title>Local Weather App</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	
-	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Local Weather App</title>
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		
+		<!-- <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'> -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
 
-	<link rel="stylesheet" href="css/style.css">
-	
-
-	
-
-	
-	
-	
-</head>
-
-<body>
-
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-6" id="cur-icon">
-			</div>
-			<div class="col-xs-6" id="cur-temp">This is the temperature
-			</div>
+	<body>
+		<div class="page-header">
+			<h1>Local Weather App</h1>
 		</div>
-		<div class="row">
-			<div class="col-xs-6" id="cur-weather">
-			</div>
-			<div class="col-xs-6" id="feels-like">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-6" id="precip">
-			</div>
-			<div class="col-xs-6" id="range">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12" id="location">
-			</div>
-		</div>
-	</div>
-	<div>
-		<table class="table table-sm">
-			<thead>
-				<tr id="day-names">
-					<th id="day1">Day 1</th>
-					<th id="day1-nt">Day 1 Night</th>
-					<th id="day2">Day 2</th>
-					<th id="day2-nt">Day 2 Night</th>
-					<th id="day3">Day 3</th>
-					<th id="day3-nt">Day 3 Night</th>
-					<th id="day4">Day 4</th>
-					<th id="day4-nt">Day 4 Night</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr id="day-weather">
-					<td id="day1-weather">Day 1 Weather</td>
-					<td id="day1-nt-weather">Day 1 Night Weather</td>
-					<td id="day2-weather">Day 2 Weather</td>
-					<td id="day2-nt-weather">Day 2 Night Weather</td>
-					<td id="day3-weather">Day 3 Weather</td>
-					<td id="day3-nt-weather">Day 3 Night Weather</td>
-					<td id="day4-weather">Day 4 Weather</td>
-					<td id="day4-nt-weather">Day 4 Night Weather</td>
-				</tr>
-				<tr id="day-icons">
-					<td id="day1-icon"><canvas id="icon1" width="128" height="128"></canvas></td>
-					<td id="day1-nt-icon"><canvas id="icon2" width="128" height="128"></canvas></td>
-					<td id="day2-icon"><canvas id="icon3" width="128" height="128"></canvas></td>
-					<td id="day2-nt-icon"><canvas id="icon4" width="128" height="128"></canvas></td>
-					<td id="day3-icon"><canvas id="icon5" width="128" height="128"></canvas></td>
-					<td id="day3-nt-icon"><canvas id="icon6" width="128" height="128"></canvas></td>
-					<td id="day4-icon"><canvas id="icon7" width="128" height="128"></canvas></td>
-					<td id="day4-nt-icon"><canvas id="icon8" width="128" height="128"></canvas></td>
-				</tr>
-				<tr id="day-ranges">
-					<td id="day1-range">Day 1 Range</td>
-					<td id="day1-nt-range">Day 1 Night Range</td>
-					<td id="day2-range">Day 2 Range</td>
-					<td id="day2-nt-range">Day 2 Night Range</td>
-					<td id="day3-range">Day 3 Range</td>
-					<td id="day3-nt-range">Day 3 Night Range</td>
-					<td id="day4-range">Day 4 Range</td>
-					<td id="day4-nt-range">Day 4 Night Range</td>
-				</tr>
-				<tr id="day-precips">
-					<td id="day1-precip">Day 1 Precipitation</td>
-					<td id="day1-nt-precip">Day 1 Night Precipitation</td>
-					<td id="day2-precip">Day 2 Precipitation</td>
-					<td id="day2-nt-precip">Day 2 Night Precipitation</td>
-					<td id="day3-precip">Day 3 Precipitation</td>
-					<td id="day3-nt-precip">Day 3 Night Precipitation</td>
-					<td id="day4-precip">Day 4 Precipitation</td>
-					<td id="day4-nt-precip">Day 4 Night Precipitation</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<footer class="footer">
+
 		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-6" id="icon">
+					<canvas id="cur-icon"></canvas>
+				</div>
+				<div class="col-xs-6" id="cur-temp">This is the temperature
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6" id="cur-weather">
+				</div>
+				<div class="col-xs-6" id="feels-like">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6" id="precip">
+				</div>
+				<div class="col-xs-6" id="range">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6" id="location">
+				</div>
+				<div class="col-xs-6" id="toggle_temp">
+					<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-primary active">
+							<input type="radio" name="options" id="option1" autocomplete="off" checked> Fahrenheit
+						</label>
+						<label class="btn btn-primary">
+							<input type="radio" name="options" id="option2" autocomplete="off">Celsius
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid" id="forecast">
+			<div class="day">
+				<div class="title"></div>
+				<div class="weather"></div>
+				<div class="icon">
+					<canvas id="icon1"></canvas>
+				</div>
+				<div class="range"></div>
+				<div class="precip"></div>
+			</div>
+			<div class="day">
+				<div class="title"></div>
+				<div class="weather"></div>
+				<div class="icon">
+					<canvas id="icon2"></canvas>
+				</div>
+				<div class="range"></div>
+				<div class="precip"></div>
+			</div>
+			<div class="day">
+				<div class="title"></div>
+				<div class="weather"></div>
+				<div class="icon">
+					<canvas id="icon3"></canvas>
+				</div>
+				<div class="range"></div>
+				<div class="precip"></div>
+			</div>
+			<div class="day">
+				<div class="title"></div>
+				<div class="weather"></div>
+				<div class="icon">
+					<canvas id="icon4"></canvas>
+				</div>
+				<div class="range"></div>
+				<div class="precip"></div>
+			</div>
+			<div class="day">
+				<div class="title"></div>
+				<div class="weather"></div>
+				<div class="icon">
+					<canvas id="icon5"></canvas>
+				</div>
+				<div class="range"></div>
+				<div class="precip"></div>
+			</div>
+			<div class="day">
+				<div class="title"></div>
+				<div class="weather"></div>
+				<div class="icon">
+					<canvas id="icon6"></canvas>
+				</div>
+				<div class="range"></div>
+				<div class="precip"></div>
+			</div>
+			<div class="day">
+				<div class="title"></div>
+				<div class="weather"></div>
+				<div class="icon">
+					<canvas id="icon7"></canvas>
+				</div>
+				<div class="range"></div>
+				<div class="precip"></div>
+			</div>
+			<div class="day">
+				<div class="title"></div>
+				<div class="weather"></div>
+				<div class="icon">
+					<canvas id="icon8"></canvas>
+				</div>
+				<div class="range"></div>
+				<div class="precip"></div>
+			</div>
+		</div>
+		<footer class="footer">
+			<div class="container-fluid">
 			<p class="text-muted">
 				Footer
 			</p>
-		</div>
-	</footer>
-	<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
-	<script src='https://rawgit.com/darkskyapp/skycons/master/skycons.js'></script>
-	
-	<script src="js/index.js"></script>
-	
-	
-	
-</body>
+			</div>
+		</footer>
+		<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
+		<script src='https://rawgit.com/darkskyapp/skycons/master/skycons.js'></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+		<script src="js/index.js"></script>
+		
+		
+		
+	</body>
 </html>
