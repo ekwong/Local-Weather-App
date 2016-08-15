@@ -1,8 +1,21 @@
 $(document).ready(function(){
 	getLocation();
-	// toggleTemp();
-});
+	// updateTemp();
 
+});
+$("#temp-toggle :radio").change(function () {
+	console.log("clicked");
+	if($('#f').is(':checked')){
+		console.log("f is checked");
+		$(".cDeg").hide();
+		$(".fDeg").show();
+	}
+	else if($('#c').is(':checked')){
+		console.log("c is checked");
+		$(".fDeg").hide();
+		$(".cDeg").show();
+	}
+});
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition, errorCallback);
@@ -76,7 +89,7 @@ function parseData(data){
 	var zip = data['location']['zip'];
 
 	var location = city + ', ' + state + ', ' + country;
-	$("#location").html(location);
+	$("#location").html('<p>' + location + '</p>');
 
 
 	var $fDegrees = $('<p class="fDeg">&deg;F</p>');
@@ -85,11 +98,11 @@ function parseData(data){
 	//set current conditions
 	var cur = data['current_observation'];
 
-	var $fTemp = $fDegrees.clone().prepend("Current temperature: " + cur['temp_f']);
-	var $cTemp = $cDegrees.clone().prepend("Current temperature: " + cur['temp_c']);
+	var $fTemp = $fDegrees.clone().prepend("Current Temperature: " + cur['temp_f']);
+	var $cTemp = $cDegrees.clone().prepend("Current Temperature: " + cur['temp_c']);
 	var weather = cur['weather'];
-	var $fFeels = $fDegrees.clone().prepend("Feels like: " + cur['feelslike_f']);
-	var $cFeels = $cDegrees.clone().prepend("Feels like: " + cur['feelslike_c']);
+	var $fFeels = $fDegrees.clone().prepend("Feels Like: " + cur['feelslike_f']);
+	var $cFeels = $cDegrees.clone().prepend("Feels Like: " + cur['feelslike_c']);
 	var timeUpdated = cur['observation_time'];
 	var curIcon = icons[cur['icon']];
 	var curIconUrl = cur['icon_url'];
@@ -99,9 +112,10 @@ function parseData(data){
 	//displlay current conditions
 	$("#cur-temp").append($fTemp);
 	$("#cur-temp").append($cTemp);
-	$("#cur-temp").append('<p>Relative humidity: ' + relHumidity + '</p>');
+	$("#cur-temp").append('<p>Relative Humidity: ' + relHumidity + '</p>');
 	$("#cur-weather").append("<p>" + weather + "</p>");
 	$("#feels-like").append($fFeels);
+	$("#feels-like").append($cFeels);
 	skycons.add("cur-icon", curIcon);
 
 	//forecastday has 8 periods
@@ -118,9 +132,9 @@ function parseData(data){
 		var mForecast = day['fcttext_metric'];
 		console.log("Period: " + (period +  1) + "; Forecast: " + forecast);
 		$("#forecast div:nth-child(" + (period + 1) + ") > div.weather").append('<p class="fDeg">' + forecast + "</p>");
-		$("#forecast div:nth-child(" + (period + 1) + ") > div.weather").append('<p class="cDeg">' + forecast + "</p>");
-		$("#forecast div:nth-child(" + (period + 1) + ") > div.title").html("<p>" + dayName + "</p>");
-		$("#forecast div:nth-child(" + (period + 1) + ") > div.precip").html("<p>Probability of Precipitation: " + dayPrecip + "%</p>");
+		$("#forecast div:nth-child(" + (period + 1) + ") > div.weather").append('<p class="cDeg">' + mForecast + "</p>");
+		$("#forecast div:nth-child(" + (period + 1) + ") > div.title").html("<h2>" + dayName + "</h2>");
+		$("#forecast div:nth-child(" + (period + 1) + ") > div.day_data").append("<p>Probability of Precipitation: " + dayPrecip + "%</p>");
 		skycons.add("icon" + (period + 1), icon);
 		console.log(day['icon']);
 	}
@@ -134,17 +148,36 @@ function parseData(data){
 		var $fLow = $fDegrees.clone().prepend("Low: " + simple[period]['low']['fahrenheit']);
 		var $cHigh = $cDegrees.clone().prepend("High: " + simple[period]['high']['celsius']);
 		var $cLow = $cDegrees.clone().prepend("Low: " + simple[period]['low']['celsius']);
-		$("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.range").append($fHigh);
-		$("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.range").append($fHigh.clone());
-		$("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.range").append($fLow);
-		$("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.range").append($fLow.clone());
-		$("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.range").append($cHigh);
-		$("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.range").append($cHigh.clone());
-		$("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.range").append($cLow);
-		$("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.range").append($cLow.clone());
+		var humidity = simple[period]['avehumidity'];
+		var $day = $("#forecast div:nth-child(" + (period * 2 + 1) + ") > div.day_data");
+		var $day_night = $("#forecast div:nth-child(" + (period * 2 + 2) + ") > div.day_data");
+		$day.append($fHigh);
+		$day_night.append($fHigh.clone());
+		$day.append($fLow);
+		$day_night.append($fLow.clone());
+		$day.append($cHigh);
+		$day_night.append($cHigh.clone());
+		$day.append($cLow);
+		$day_night.append($cLow.clone());
+		console.log($day[0]);
+		$($day.find('p.humidity')).prepend("Average Humidity: " + humidity);
+		$($day_night.find(' p.humidity')).prepend("Average Humidity: " + humidity);
 	}
 }
 
 function errorCallback(err){
 	console.log("ERROR: " + err.code + " " +  err.message);
+}
+
+function updateTemp(){
+	$("input[name=units]:radio").change(function () {
+		if(document.getElementById('f').checked){
+			$(".cDeg").hide();
+			$(".fDeg").show();
+		}
+		else if(document.getElementById('c').checked){
+			$(".fDeg").hide();
+			$(".cDeg").show();
+		}
+	});
 }

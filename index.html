@@ -9,127 +9,134 @@
 		
 		<!-- <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'> -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
+		
 		<link rel="stylesheet" href="css/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	</head>
 
 	<body>
-		<div class="page-header">
+		<header class="jumbotron text-center" id="header">
 			<h1>Local Weather App</h1>
-		</div>
+		</header>
+		<div class="container-fluid" id="content">
+			<div class="container" id="cur-conditions">
+			<h2>Current Conditions</h2>
+				<div class="row">
+					<div class="col-md-6" id="icon">
+						<canvas id="cur-icon"></canvas>
+					</div>
+					<div class="col-md-6 cur-data">
+						<div id="location">
+						</div>
+						<div id="cur-weather">
+						</div>
+						<!-- <div class="clearfix visible-xs"></div> -->
+						<div id="cur-temp">
+						</div>
+						<div id="feels-like">
+						</div>
+						<div class="text-center">
+							<div class="btn-group text-center" data-toggle="buttons" id="temp-toggle">
+								<label class="btn btn-primary active" id="f_label">
+									<input type="radio" name="units" id="f" autocomplete="off" checked> Fahrenheit
+								</label>
+								<label class="btn btn-primary" id="c_label">
+									<input type="radio" name="units" id="c" autocomplete="off">Celsius
+								</label>
+							</div>
+						</div>
+					</div>
 
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-xs-6" id="icon">
-					<canvas id="cur-icon"></canvas>
-				</div>
-				<div class="col-xs-6" id="cur-temp">This is the temperature
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-6" id="cur-weather">
+			<div class="container" id="forecast">
+				<div class="day">
+					<div class="title"></div>
+					<div class="weather"></div>
+					<div class="icon">
+						<canvas id="icon1"></canvas>
+					</div>
+					<div class="day_data text-center">
+						<p class="humidity">%</p>
+					</div>
 				</div>
-				<div class="col-xs-6" id="feels-like">
+				<div class="day">
+					<div class="title"></div>
+					<div class="weather"></div>
+					<div class="icon">
+						<canvas id="icon2"></canvas>
+					</div>
+					<div class="day_data text-center">
+						<p class="humidity">%</p>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-6" id="precip">
+				<div class="day">
+					<div class="title"></div>
+					<div class="weather"></div>
+					<div class="icon">
+						<canvas id="icon3"></canvas>
+					</div>
+					<div class="day_data text-center">
+						<p class="humidity">%</p>
+					</div>
 				</div>
-				<div class="col-xs-6" id="range">
+				<div class="day">
+					<div class="title"></div>
+					<div class="weather"></div>
+					<div class="icon">
+						<canvas id="icon4"></canvas>
+					</div>
+					<div class="day_data text-center">
+						<p class="humidity">%</p>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-6" id="location">
+				<div class="day">
+					<div class="title"></div>
+					<div class="weather"></div>
+					<div class="icon">
+						<canvas id="icon5"></canvas>
+					</div>
+					<div class="day_data text-center">
+						<p class="humidity">%</p>
+					</div>
 				</div>
-				<div class="col-xs-6" id="toggle_temp">
-					<div class="btn-group" data-toggle="buttons">
-						<label class="btn btn-primary active">
-							<input type="radio" name="options" id="option1" autocomplete="off" checked> Fahrenheit
-						</label>
-						<label class="btn btn-primary">
-							<input type="radio" name="options" id="option2" autocomplete="off">Celsius
-						</label>
+				<div class="day">
+					<div class="title"></div>
+					<div class="weather"></div>
+					<div class="icon">
+						<canvas id="icon6"></canvas>
+					</div>
+					<div class="day_data text-center">
+						<p class="humidity">%</p>
+					</div>
+				</div>
+				<div class="day">
+					<div class="title"></div>
+					<div class="weather"></div>
+					<div class="icon">
+						<canvas id="icon7"></canvas>
+					</div>
+					<div class="day_data text-center">
+						<p class="humidity">%</p>
+					</div>
+				</div>
+				<div class="day">
+					<div class="title"></div>
+					<div class="weather"></div>
+					<div class="icon">
+						<canvas id="icon8"></canvas>
+					</div>
+					<div class="day_data text-center">
+						<p class="humidity">%</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="container-fluid" id="forecast">
-			<div class="day">
-				<div class="title"></div>
-				<div class="weather"></div>
-				<div class="icon">
-					<canvas id="icon1"></canvas>
-				</div>
-				<div class="range"></div>
-				<div class="precip"></div>
-			</div>
-			<div class="day">
-				<div class="title"></div>
-				<div class="weather"></div>
-				<div class="icon">
-					<canvas id="icon2"></canvas>
-				</div>
-				<div class="range"></div>
-				<div class="precip"></div>
-			</div>
-			<div class="day">
-				<div class="title"></div>
-				<div class="weather"></div>
-				<div class="icon">
-					<canvas id="icon3"></canvas>
-				</div>
-				<div class="range"></div>
-				<div class="precip"></div>
-			</div>
-			<div class="day">
-				<div class="title"></div>
-				<div class="weather"></div>
-				<div class="icon">
-					<canvas id="icon4"></canvas>
-				</div>
-				<div class="range"></div>
-				<div class="precip"></div>
-			</div>
-			<div class="day">
-				<div class="title"></div>
-				<div class="weather"></div>
-				<div class="icon">
-					<canvas id="icon5"></canvas>
-				</div>
-				<div class="range"></div>
-				<div class="precip"></div>
-			</div>
-			<div class="day">
-				<div class="title"></div>
-				<div class="weather"></div>
-				<div class="icon">
-					<canvas id="icon6"></canvas>
-				</div>
-				<div class="range"></div>
-				<div class="precip"></div>
-			</div>
-			<div class="day">
-				<div class="title"></div>
-				<div class="weather"></div>
-				<div class="icon">
-					<canvas id="icon7"></canvas>
-				</div>
-				<div class="range"></div>
-				<div class="precip"></div>
-			</div>
-			<div class="day">
-				<div class="title"></div>
-				<div class="weather"></div>
-				<div class="icon">
-					<canvas id="icon8"></canvas>
-				</div>
-				<div class="range"></div>
-				<div class="precip"></div>
-			</div>
-		</div>
 		<footer class="footer">
-			<div class="container-fluid">
-			<p class="text-muted">
-				Footer
+			<div class="container-fluid text-center" id="footer">
+			<p>Created by Eric Kwong. Weather information powered by:
+			<img src="https://icons.wxug.com/logos/JPG/wundergroundLogo_4c_horz.jpg" width="90px">
 			</p>
 			</div>
 		</footer>
@@ -138,7 +145,9 @@
 		<script src='https://rawgit.com/darkskyapp/skycons/master/skycons.js'></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="js/index.js"></script>
 		
 		
