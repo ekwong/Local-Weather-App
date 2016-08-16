@@ -1,8 +1,8 @@
 $(document).ready(function(){
 	getLocation();
-	// updateTemp();
-
 });
+
+//display fahrenheit or celsius depending on which button is clicked
 $("#temp-toggle :radio").change(function () {
 	console.log("clicked");
 	if($('#f').is(':checked')){
@@ -16,6 +16,8 @@ $("#temp-toggle :radio").change(function () {
 		$(".cDeg").show();
 	}
 });
+
+//start the getting location process
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition, errorCallback);
@@ -25,19 +27,19 @@ function getLocation() {
 	}
 }
 
+//get latitude and longitude and pass into getData
 function showPosition(position) {
 	var lat = position.coords.latitude;
 	var lon = position.coords.longitude;
-	console.log(lat + " " + lon);
 	getData(lat, lon);
-	console.log("test");
 }
 
+//get the weather data from Wunderground API
 function getData(lat, lon){
-	var key = "c40d7e8a27a99ff6";
+	var wKey = "c40d7e8a27a99ff6";
 	console.log("in getData");
 	$.ajax({
-		url : "https://api.wunderground.com/api/" + key + "/forecast/geolookup/conditions/q/" + lat + "," + lon + ".json",
+		url : "https://api.wunderground.com/api/" + wKey + "/forecast/geolookup/conditions/q/" + lat + "," + lon + ".json",
 		dataType: "jsonp",
 		success: parseData,
 		error: function(xhr, error){
@@ -46,6 +48,7 @@ function getData(lat, lon){
 	});
 }
 
+//update the page with the weather data
 function parseData(data){
 	//map Skycons
 	var icons = {
@@ -81,17 +84,20 @@ function parseData(data){
 		"nt_flurries": Skycons.SNOW,
 		"hazy": Skycons.PARTLY_CLOUDY_DAY
 	}
+	//initialize skycons
 	var skycons = new Skycons({"color": "black"});
 
+	//get location data from response
 	var city = data['location']['city'];
 	var state = data['location']['state'];
 	var country = data['location']['country'];
 	var zip = data['location']['zip'];
 
+	//display location data on page
 	var location = city + ', ' + state + ', ' + country;
 	$("#location").html('<p>' + location + '</p>');
 
-
+	//paragraph tags for fahrenheit and celsius to be cloned later
 	var $fDegrees = $('<p class="fDeg">&deg;F</p>');
 	var $cDegrees = $('<p class="cDeg">&deg;C</p>');
 
@@ -136,13 +142,12 @@ function parseData(data){
 		$("#forecast div:nth-child(" + (period + 1) + ") > div.title").html("<h2>" + dayName + "</h2>");
 		$("#forecast div:nth-child(" + (period + 1) + ") > div.day_data").append("<p>Probability of Precipitation: " + dayPrecip + "%</p>");
 		skycons.add("icon" + (period + 1), icon);
-		console.log(day['icon']);
 	}
 	//play the skycons
 	skycons.play();
 
 	
-	//set the high/low for each day
+	//set the high/low, humidity for each day
 	for(var period = 0; period < simple.length; period++){
 		var $fHigh = $fDegrees.clone().prepend("High: " + simple[period]['high']['fahrenheit']);
 		var $fLow = $fDegrees.clone().prepend("Low: " + simple[period]['low']['fahrenheit']);
@@ -159,7 +164,6 @@ function parseData(data){
 		$day_night.append($cHigh.clone());
 		$day.append($cLow);
 		$day_night.append($cLow.clone());
-		console.log($day[0]);
 		$($day.find('p.humidity')).prepend("Average Humidity: " + humidity);
 		$($day_night.find(' p.humidity')).prepend("Average Humidity: " + humidity);
 	}
@@ -167,17 +171,4 @@ function parseData(data){
 
 function errorCallback(err){
 	console.log("ERROR: " + err.code + " " +  err.message);
-}
-
-function updateTemp(){
-	$("input[name=units]:radio").change(function () {
-		if(document.getElementById('f').checked){
-			$(".cDeg").hide();
-			$(".fDeg").show();
-		}
-		else if(document.getElementById('c').checked){
-			$(".fDeg").hide();
-			$(".cDeg").show();
-		}
-	});
 }
