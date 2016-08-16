@@ -50,7 +50,7 @@ function getData(lat, lon){
 
 //update the page with the weather data
 function parseData(data){
-	//map Skycons
+	//map Wunderground API icon names to Skycons icons
 	var icons = {
 		"partlycloudy": Skycons.PARTLY_CLOUDY_DAY,
 		"nt_partlycloudy": Skycons.PARTLY_CLOUDY_NIGHT,
